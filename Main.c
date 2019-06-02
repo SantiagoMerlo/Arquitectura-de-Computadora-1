@@ -12,11 +12,11 @@ void delay(int a){
   {
     unsigned int i = 0x4fffff; //raspberry 0x3fffff
     while(i)i--;
-  }
+  };
 };
 
 //output estandar, convierte cualquier numero 
-//decimal en binario pero al revez (osea 1 = 1000000)
+//decimal/Hexa a binario pero al revez (osea 1 = 1000000)
 
 void output(unsigned char a) 
 {
@@ -32,26 +32,26 @@ void output(unsigned char a)
  
 };
 
-//output de choque --> uno especial (ver mejor)
+//output de choque --> uno especial
 void outputCh(int a)
 {
-    int b = a*(2^4);
+    char b[4]; 
     for(int i=0; i<4;i++)
     {
-        if(a%2==0)
-      printf("_");
-    else
-      printf("*");
-      a=a/2;
-        
-    }
-    for(int j=0; j<4;j++)
+        if(a%2==0){
+            printf("_");
+            b[i] = "_";
+        }
+        else{
+            printf("*");
+            b[i] = "*";
+        }
+          a=a/2;  
+    }; //Va marcando el camino y cuando llega a este punto lo muestra al revez
+    for(int j=4; j>0;j--)
     {
-        if(b%2==0)
-      printf("_");
-    else
-      printf("*");
-    }
+      printf(b[j]);
+    };
     printf("\n");
  
 };
@@ -65,19 +65,34 @@ void AutofantasticoT() //Autofantastico con tabla
             output(valor);
             delay(20);
             //if( press_key ) return;
-        }
+        };
         for (i = 8; i>0; i-- )
         {
             int valor = TablaAF[i];
             output(valor);
             delay(20);
-            //if( press_key ) return;
-            
-        }
+            //if( press_key ) return;  
+        };
     };
 };
 
-//algoritmo de Autofantastico, le falta la opcion de que si se preciona una tecla el programa termina
+//algoritmo de Choque, se modifico el output para que sea mas sensillo
+void Choque(){
+  while(1){
+        for(int i = 1; i<=24; i=i*2)
+        {
+            outputCh(i);
+            delay(10);
+            //if( press_key ) return;
+        };
+        for(int i = 24; i>=1; i=i/2)
+        {
+            outputCh(i);
+            delay(10);
+            //if( press_key ) return;
+        };
+    };
+};
 void Autofantastico(){
   while(1){
         for(int i = 1; i<=64; i=i*2) //si salta un error aca hay que sacar el i*2 y ponerlo abajo del if
@@ -106,12 +121,26 @@ void Carrera()
         };
     };
 };
+//HECHO CON TABLA
+void ChoqueT()
+{
+    while(1){
+        for (int i = 0; i<8; i++ )
+        {
+            int valor = TablaCh[i];
+            output(valor);
+            //if( press_key ) return;
+        };
+    };
+};
 
 
 int main()
 {
     printf("///////////Menu///////////\n");
-    printf("1. Autofantastico\n2.Choque\n3.Carrera\n");
+    printf("1. Autofantastico \n");
+    printf("2.Choque \n");
+    printf("3.Carrera \n");
     int opcion;
     do
     {
@@ -128,5 +157,7 @@ int main()
         case 3:
             Carrera();
             break;
+    }
   return 0;
+
 }
