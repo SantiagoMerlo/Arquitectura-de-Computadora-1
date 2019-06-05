@@ -40,17 +40,17 @@ void outputCh(int a)
     {
         if(a%2==0){
             printf("_");
-            b[i] = "_";
+            b[i] = '_';
         }
         else{
             printf("*");
-            b[i] = "*";
+            b[i] = '*';
         }
           a=a/2;  
     }; //Va marcando el camino y cuando llega a este punto lo muestra al revez
     for(int j=4; j>0;j--)
     {
-      printf(b[j]);
+      printf ("%d ", b[j]);
     };
     printf("\n");
  
@@ -61,14 +61,14 @@ void AutofantasticoT() //Autofantastico con tabla
     while(1){ ///--------------------> falta la tecla que hay que precionar
         for (int i = 0; i<8; i++ )
         {
-            int valor = TablaAF[i];
+            int valor = TablaAf[i];
             output(valor);
             delay(20);
             //if( press_key ) return;
         };
         for (int i = 8; i>0; i-- )
         {
-            int valor = TablaAF[i];
+            int valor = TablaAf[i];
             output(valor);
             delay(20);
             //if( press_key ) return;  
@@ -161,3 +161,4 @@ int main()
   return 0;
 
 }
+
