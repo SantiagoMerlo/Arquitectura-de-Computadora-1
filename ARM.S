@@ -1,36 +1,32 @@
 . global main
 main:
+
+                                    ;;;;; Funcion Main
+    MOV R2, #0                      ; seteo caso base
+    SUB R1, R1, #1                  ; empezar con posición 0
+    LSL R1, #2                      ; multiplica por 4 - lsl multiplica por 2 y #2 determina 
+    LDR PC, [R2,R1, LSL #2]         ;Posicion a buscar
+
+
     
-    MOV R1,#1 ; VALOR DE R1 a graficar
+    MOV R0,#1 ; VALOR DE R1 a graficar
     BL output ;llamado de la funcion
     
 
 
-output:
+output:                             ;;;;;;Funcion Output
 
-        SUB SP,SP,#8 ;Salvando
-        STR R4,[SP,#4]
-        STR R5,[SP]
-        ADD R4,R4,#8    ;comienzo del for
-        MOV R5,R1     ; valor para trabajar
-    loop:
-    div:
-        SUB R5,R5,#2
-        CMP R5,#2
-        BGT div ;si es mayor a 2 sigue restandose
-        CMP R5,#0
-        EQ "*"
-        NE "_"
-    ROR ; ERA PARA RESTAR 
-    
-    
-    
-    
-    
-    
-        SUBS R4,R4,#1
-    BNE loop
-        LDR R5,[SP]
-        LDR R4,[SP,#4]
-        ADD SP, SP,#8
+       
         MOV PC,LR
+        
+        
+        
+                                    ;;;;;Funcion Delay(R1)
+Delay:
+    MOV RO,0x4fffff                 ;Instancia R0
+LOOP:                               ;Inicio WHILE
+    SUBS R0,R0,#1
+    BNE LOOP                        ;Fin While
+    SUBS R1,R1,#1                   
+    BNE Delay                       ;Funciona como for/fin for
+    MOV PC,LR
