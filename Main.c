@@ -66,7 +66,7 @@ void AutofantasticoT() //Autofantastico con tabla
             delay(20);
             //if( press_key ) return;
         };
-        for (i = 8; i>0; i-- )
+        for (int i = 8; i>0; i-- )
         {
             int valor = TablaAF[i];
             output(valor);
@@ -101,7 +101,7 @@ void Autofantastico(){
             delay(10);
             //if( press_key ) return;
         };
-        for(i = 64; i>0 ; i=i/2){ //si salta un error aca hay que sacar el i/2 y ponerlo abajo del if
+        for(int i = 64; i>0 ; i=i/2){ //si salta un error aca hay que sacar el i/2 y ponerlo abajo del if
             output(i);
             delay(10);
             //if( press_key ) return;
