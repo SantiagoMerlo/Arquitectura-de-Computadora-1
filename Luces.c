@@ -1,5 +1,32 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <ncurses.h>
+
+    char password[6];
+
+//Comprobar Contraseña
+int ingreso(){	
+    for(int i=0; i<3;i++){
+       
+        char c;
+        char temp[5];
+        initscr();
+        noecho();
+        for(int i = 0; i < 5; i++){
+            c = getch();
+            temp[i] = c;
+            printw("*");
+        }
+    echo();
+    endwin();
+    if(strcmp(temp, password)==0)
+        return 1;
+    printf("Prueba de nuevo\n");
+   }
+   return 0;
+}
+
 
 ////////////////////tablas de datos //////////////////////////////////
 int TablaAf [8]= {1, 2, 4, 8, 16, 32, 64, 128};
@@ -137,6 +164,13 @@ void ChoqueT()
 
 int main()
 {
+    strcpy(password, "14863");
+  
+    if(ingreso())
+        printf("Bien\n");
+    else
+        printf("Mal bro\n");
+  
     printf("///////////Menu///////////\n");
     printf("1. Autofantastico \n");
     printf("2.Choque \n");
