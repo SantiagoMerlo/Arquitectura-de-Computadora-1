@@ -1,5 +1,10 @@
 #ifndef ARQUITECTURA_COMPUTADORA_H
 #define ARQUITECTURA_COMPUTADORA_H
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ncurses.h>
+#include <math.h>
 
 //output estandar, convierte cualquier numero 
 //decimal/Hexa a binario pero al revez (osea 1 = 1000000)
