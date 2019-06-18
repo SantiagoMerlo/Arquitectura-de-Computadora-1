@@ -25,5 +25,36 @@ pioInit --> sirve para acceder a puerto de memoria para el sistema operativo -->
 
 
 void delayMillis(int millis); //(1000 = 1 seg)
-
+void digitalWrite(int pin,int val); --> pin es que puero prendo // valo 0 apagado, 1 prendido
 para llamar a la funcion se necesita B <<rotulo>>
+ 
+ 
+ 
+ //comentario//
+ . text
+. global main
+.type main, %function
+
+main:
+    push{r3,lr}
+                                    ;;;;; Funcion Main
+    MOV R2, #0                      ; seteo caso base
+    SUB R1, R1, #1                  ; empezar con posición 0
+    LSL R1, #2                      ; multiplica por 4 - lsl multiplica por 2 y #2 determina 
+    LDR PC, [R2,R1, LSL #2]         ;Posicion a buscar
+    
+
+    
+    MOV R1,#1 ; VALOR DE R1 a graficar
+    BL game ;llamado de la funcion
+    pop {r3,pc}
+
+
+.data
+.l3:
+    .word 0x08
+    .word 0x10
+    .word 0xff
+    
+.end
+
