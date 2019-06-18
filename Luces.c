@@ -1,8 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ncurses.h>
-#include <math.h>
+#include <sys/ioctl.h>
+#include "EasyPIO.h"
+#include "output.h"
 
 #define letra_a 97 
 
@@ -52,49 +50,6 @@ void delay(int a){
   //system("clear");
   
 };
-
-//output estandar, convierte cualquier numero 
-//decimal/Hexa a binario pero al revez (osea 1 = 1000000)
-////////////////////Mostrar de la funcion //////////////////////
-
-void output(unsigned char a) 
-{
-  for(int i=0; i<8; i++)
-  {
-    if(a%2==0)
-      printf("_");
-    else
-      printf("*");
-    a=a/2;
-  }
-    printf("\r");
-    fflush(stdout);
-};
-
-//output de choque --> uno especial
-void outputCh(unsigned char a)
-{
-    char b[5]; 
-    for(int i=0; i<4 ; i++)
-    {
-        if(a%2==0){
-            printf("_");
-            b[i] = '_';
-        }
-        else{
-            printf("*");
-            b[i] = '*';
-        }
-          a=a/2;  
-    }; //Va marcando el camino y cuando llega a este punto lo muestra al revez
-    for(int j=4; j>=0;j--)
-    {
-      printf ("%c", b[j]);
-    };
-    printf("\r");
-    fflush(stdout);
- 
-}
 //////////////////Autofantastico por Tabla /////////////////////
 void AutofantasticoT() 
 {
@@ -214,7 +169,6 @@ void Game(){
         };
     };
 };
-
 int main()
 {
     printf("Introduzca la Contraseña de usuario \n");
@@ -229,39 +183,37 @@ int main()
     while(1){
         printf("///////////Menu///////////\n");
         printf("1. Autofantastico \n");
-        printf("2.Choque \n");
-        printf("3.Choque con Tabla\n");
-        printf("4.Carrera con tabla \n");
-        printf("5.Juego de carga\n");        
-        printf("6.Pantalla de carga\n");
-        printf("7.Salir\n");
+        printf("2.Choque CON tabla \n");
+        printf("3.Carrera con Tabla\n");
+        printf("4.Carga de videojuegos \n");
+        printf("5.Pantalla de carga\n");        
+        printf("6.Salir\n");
         int opcion;
         do
         {
             scanf("%i", &opcion);
-        }while (opcion<1 || opcion>7);
+        }while (opcion<1 || opcion>6);
         system("clear");
         switch(opcion) {
             case 1 :
                 Autofantastico();
                 break;
             case 2:
-                Choque();
-                break;
-            case 3:
                 ChoqueT();
                 break;
-            case 4 :
+            case 3:
                 Carrera();
                 break;
-            case 5 :
+            case 4 :
                 Game();
                 break;
-            case 6 :
+            case 5 :
                 Cargando();
                 break;
-            case 7:
+            case 6 :
                 return 1;
                 break;
+            
         }
     }
+}
