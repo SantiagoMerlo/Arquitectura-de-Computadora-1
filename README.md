@@ -22,3 +22,8 @@ con $ gcc se linkea -->
   EasyPIO.h --> se puede incluir o generar un objeto y linkearlo todo junto
 
 pioInit --> sirve para acceder a puerto de memoria para el sistema operativo --> se necesita utilizar el SUDO porque esta protegido
+
+
+void delayMillis(int millis); //(1000 = 1 seg)
+
+para llamar a la funcion se necesita B <<rotulo>>
