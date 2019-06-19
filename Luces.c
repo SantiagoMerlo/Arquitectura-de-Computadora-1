@@ -1,9 +1,8 @@
-#include <sys/ioctl.h>
-#include "EasyPIO.h"
 #include "output.h"
 
-#define letra_a 97 
-
+#define salida 97      //letra a para salir
+#define mas_rapido 43    //simbolo "+" para que sea mas rapido
+#define mas_lento 45 //simbolo "-" para que sea mas lento
     char password[6];
     char letra;
     
@@ -12,140 +11,194 @@
 
 
 ////////////////////tablas de datos //////////////////////////////////
-int TablaAf [8]= {1, 2, 4, 8, 16, 32, 64, 128};
-int TablaCh [8]= {129, 66, 36, 24, 24 , 36 , 66, 129};
-int TablaCa [16]= {1, 1 ,2, 2, 4, 4, 8, 8, 16, 17, 34, 36, 72, 80, 192, 128};
-int TablaCarga[10]={1 ,3 , 7, 15, 15, 31, 31, 63,127,255};
+unsigned char TablaAf []= {0x01, 0x02, 0x04,0x08,0x10, 0x20, 0x40, 0x80};
+unsigned char TablaCh []= {0x81, 0x42, 0x24, 0x18, 0x18, 0x24, 0x42, 0x81};
+unsigned char TablaCa []= {0x01, 0x01 ,0x03, 0x03, 0x05, 0x05, 0x09, 0x09, 0x11,0x12,0x24,0x28,0x50,0x60,0x40,0x80};
+unsigned char TP[] = {0x88, 0x48, 0x28, 0x18, 0x14, 0x12, 0x12, 0x14, 0x18,0x28,0x48,0x48, 0x28,0x18,0x14,0x14,0x18,0x28,0x28,0x18,0x18,0x18};
 
 
 /////////////////Comprobar Contraseña///////////////////////////
 int ingreso(){	
+    initscr();
+    noecho();
+    printw("Ingrese clave: ");
     for(int i=0; i<3;i++){
-       
         char c;
         char temp[5];
-        initscr();
-        noecho();
         for(int i = 0; i < 5; i++){
             c = getch();
             temp[i] = c;
             printw("*");
         }
+        printw("\r                      ");
+        fflush(stdout);
+    if(strcmp(temp, password)==0){
+        printw("\r");
+        echo();
+        endwin();
+        return 1; 
+    }
+    printw("\rPrueba de nuevo: ");
+   }
+    printw("\r                         ");
+    printw("\r");
+    fflush(stdout);
     echo();
     endwin();
-    if(strcmp(temp, password)==0)
-        return 1;
-    printf("Prueba de nuevo\n");
-   }
-   return 0;
-};
+    return 0;
+}
+
+int press_key() {
+    cbreak();
+    char c;
+    keypad(stdscr, TRUE);
+    nodelay(stdscr, TRUE);
+    c = getch();
+    nocbreak();
+    if(c == mas_lento){
+        tiempo+=2;
+    }
+    if(c == mas_rapido){
+       tiempo-=2;
+    }
+    if (c == salida){ //finaliza con a
+        return 0;
+    }
+    return 1;
+}
+
 
 ///////////////// Delay de todas las funciones ///////////////////
 void delay(int a){
   for(int j=0;j<a;j++)
   {
-    unsigned int i = 0x4fffff; //raspberry 0x3fffff
+    unsigned int i = 0x3fffff; //raspberry 0x3fffff
     while(i)i--;
   };
-  //system("clear");
-  
 };
+
 //////////////////Autofantastico por Tabla /////////////////////
 void AutofantasticoT() 
 {
-    while(1){ ///--------------------> falta la tecla que hay que precionar
+    initscr();
+    noecho();
+    while(1){ 
         for (int i = 0; i<8; i++ )
         {
             int valor = TablaAf[i];
             output(valor);
             delay(tiempo);
+            if(press_key() == 0){
+                echo();
+                endwin();
+                return;
+            } 
         };
-        for (int i = 8; i>0; i-- )
+        for (int i = 7; i>0; i-- )
         {
             int valor = TablaAf[i];
             output(valor);
             delay(tiempo);
-            //if( press_key ) return;  
+            if(press_key() == 0){
+                echo();
+                endwin();
+                return;
+            } 
         };
     };
-}
+};
 
-///////////////Algoritmo de Choque, tiene un Outpu especial (outputCh)////////
-void Choque(){
-  while(1){
-        for(int i = 1; i<=8; i=i*2)
-        {
-            outputCh(i);
-            delay(tiempo);
-            //if( press_key ) return;
-        };
-        for(int i = 8; i>=1; i=i/2)
-        {
-            outputCh(i);
-            delay(tiempo);
-            //if( press_key ) return;
-        };
-    };
-}
 /////////////////////Autofantastico Algoritmo ///////////////////////////////////////
 void Autofantastico(){
   while(1){
+        initscr();
+        noecho();
         for(int i = 1; i<=128; i=i*2) 
         {
             output(i);
             delay(tiempo);
-            //if( press_key ) return;
+            if(press_key() == 0){
+                echo();
+                endwin();
+                return;
+            } 
         };
         for(int i = 64; i>0 ; i=i/2){ 
             output(i);
             delay(tiempo);
-            //if( press_key ) return;
+            if(press_key() == 0){
+                echo();
+                endwin();
+                return;
+            } 
+            
         };
     };
-}
+};
 
 /////////////////Funcion Carrera hecha con tabla //////////////////
 void Carrera()
 {
+    initscr();
+    noecho();
     while(1){
         for (int i = 0; i<16; i++ )
         {
             int valor = TablaCa[i];
             output(valor);
             delay(tiempo);
-            //if( press_key ) return;
+            if(press_key() == 0){
+                echo();
+                endwin();
+                return;
+            } 
         };
     };
 };
 //////////////// Algoritmo choque hecho por tabla (no se puede de otra forma)//////////
 void ChoqueT()
 {
+    initscr();
+    noecho();
     while(1){
         for (int i = 0; i<8; i++ )
         {
             int valor = TablaCh[i];
             output(valor);
             delay(tiempo);
-            //if( press_key ) return;
+            if(press_key() == 0){
+                echo();
+                endwin();
+                return;
+            } 
         };
     };
 };
 ///////////////////Pantalla de Carga, es aun Algoritmo nuestro hecho con tabla/////////////
-void Cargando()
+void cuna_de_newton()
 {
+    initscr();
+    noecho();
     while(1){
-        for (int i = 0; i<10; i++ )
+        for (int i = 0; i<22; i++ )
         {
-            int valor = TablaCarga[i];
+            int valor = TP[i];
             output(valor);
-            delay(30);
-            //if( press_key ) return;
+            delay(tiempo);
+            if(press_key() == 0){
+                echo();
+                endwin();
+                return;
+            } 
         };
+        
     };
 };
 /////////////////Algoritmo Propio que consiste en la pantalla de carga de los juegos viejos///////////
 void Game(){
-  while(1){
+    initscr();
+    noecho();
+    while(1){
         int b[8];
         b[0]=1;
         output(b[0]);
@@ -154,39 +207,52 @@ void Game(){
             b[i] = b[0] + pow(2,i);
             output(b[i]);
             delay(tiempo);
+            if(press_key() == 0){
+                echo();
+                endwin();
+                return;
+            } 
         };
         int k = 7;
         for(int j= 1 ; j<8 ; j++){
             b[0]= b[1];
             output(b[1]);
             delay(tiempo);
+            if(press_key() == 0){
+                echo();
+                endwin();
+                return;
+            } 
             for(int i = 1; i<k ;i++){
                 b[i]= b[i+1] + pow(2,j);
                 output(b[i]);
                 delay(tiempo);
+                if(press_key() == 0){
+                    echo();
+                    endwin();
+                    return;
+                } 
             };
             k--;
         };
     };
 };
+
 int main()
 {
-    printf("Introduzca la Contraseña de usuario \n");
     strcpy(password, "14863");
-    if(ingreso())
-        printf("Constraseña Correcta\n");
-    else
-    {
+    if(!ingreso()){
         printf("Se te acabaron los intentos\n");
         return 0;
     }
     while(1){
+        system("clear");
         printf("///////////Menu///////////\n");
         printf("1. Autofantastico \n");
-        printf("2.Choque CON tabla \n");
-        printf("3.Carrera con Tabla\n");
+        printf("2.Choque\n");
+        printf("3.Carrera\n");
         printf("4.Carga de videojuegos \n");
-        printf("5.Pantalla de carga\n");        
+        printf("5.Cuna de Newton\n");        
         printf("6.Salir\n");
         int opcion;
         do
@@ -196,7 +262,7 @@ int main()
         system("clear");
         switch(opcion) {
             case 1 :
-                Autofantastico();
+                AutofantasticoT();
                 break;
             case 2:
                 ChoqueT();
@@ -208,7 +274,7 @@ int main()
                 Game();
                 break;
             case 5 :
-                Cargando();
+                cuna_de_newton();
                 break;
             case 6 :
                 return 1;
