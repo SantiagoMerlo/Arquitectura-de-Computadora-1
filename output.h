@@ -12,16 +12,25 @@
 
 void output(unsigned char a) 
 {
-  for(int i=0; i<8; i++)
-  {
-    if(a%2==0)
-      printf("_");
-    else
-      printf("*");
+    //const char led[] = {14,15,18,23,25,8,7};
+    //const char sw[] = {12,16,20,21};
+    for(int i=0; i<8; i++)
+    {
+        if(a%2==0){
+            printf("_");
+            //digitalWrite(led[i], 1);
+        }
+            
+        else{
+            printf("*");
+            //digitalWrite(led[i], 0);
+        }
     a=a/2;
   }
-    printf("\r");
-    fflush(stdout);
+  printf("\r");
+  fflush(stdout);
+
+ 
 };
 
 #endif
