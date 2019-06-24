@@ -5,6 +5,7 @@
 #include <string.h>
 #include <ncurses.h>
 #include <math.h>
+#include "EasyPIO.h"
 
 //output estandar, convierte cualquier numero 
 //decimal/Hexa a binario pero al revez (osea 1 = 1000000)
