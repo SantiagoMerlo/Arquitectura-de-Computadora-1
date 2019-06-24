@@ -10,21 +10,21 @@ cuna_newton:
       PUSH {R4-R5, LR}
       
 _newton_init:
-     MOV R4, #0   ;contador
+     MOV R4, #0   //contador
      
 _newton_move:
      ADD R4, R4, #1
      LDR R5, =numbers
      LDRB R5, [R5, R4]
      BL press_key
-     CMP R0, #1   ;Si es igual a 1 no sale
+     CMP R0, #1   //Si es igual a 1 no sale
      BNE _newton_out
      MOV R0, R5 
-     BL output    ;output(values[r5])
+     BL output    //output(values[r5])
      LDR R0, =tiempo
      LDR R0, [R0]
      BL delay
-     CMP R4, #22  ;table size
+     CMP R4, #22  //table size
      BEQ _newton_init
      B _newton_move
      
