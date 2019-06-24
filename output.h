@@ -12,8 +12,8 @@
 
 void output(unsigned char a) 
 {
-    //const char led[] = {14,15,18,23,25,8,7};
-    //const char sw[] = {12,16,20,21};
+    const char led[] = {7, 8, 25, 24, 23, 18, 15, 14};
+    const char sw[] = {12,16,20,21};
     for(int i=0; i<8; i++)
     {
         if(a%2==0){
