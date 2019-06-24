@@ -205,40 +205,34 @@ void video_game(){
     while(1){
         int b[8];
         b[0]=1;
-        output(b[0]);
-        delay(tiempo);
-        for(int i = 1; i < 8; i++){
-            b[i] = b[0] + pow(2,i);
+        for(int i=1;i<8;i++){
+            b[i]=b[i-1]+b[i-1];
             output(b[i]);
             delay(tiempo);
             if(press_key() == 0){
                 echo();
                 endwin();
                 return;
-            } 
+            }
         };
-        int k = 7;
-        for(int j= 1 ; j<8 ; j++){
-            b[0]= b[1];
-            output(b[1]);
-            delay(tiempo);
-            if(press_key() == 0){
-                echo();
-                endwin();
-                return;
-            } 
-            for(int i = 1; i<k ;i++){
-                b[i]= b[i+1] + pow(2,j);
-                output(b[i]);
+            
+        int k=1;
+        do{
+            int aux;
+            for(int i=k;i<8;i++){
+                aux=b[k]-1;
+                aux=b[i]+aux;
+                output(aux);
                 delay(tiempo);
                 if(press_key() == 0){
                     echo();
                     endwin();
                     return;
-                } 
-            };
-            k--;
-        };
+                }
+            }
+            k++;
+        }while(k<8);
+            
     };
 };
 */
