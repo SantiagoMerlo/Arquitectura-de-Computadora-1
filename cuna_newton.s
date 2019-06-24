@@ -23,7 +23,7 @@ _newton_move:
      BL output // output(values[r5])
      LDR R0, =tiempo
      LDR R0, [R0]
-     BL delayMillis
+     BL delay
      CMP R4, #22 // table size
      BEQ _newton_init
      B _newton_move
