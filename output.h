@@ -18,12 +18,12 @@ void output(unsigned char a)
     {
         if(a%2==0){
             printf("_");
-            digitalWrite(led[i], 0);
+            digitalWrite(led[i], 1);
         }
             
         else{
             printf("*");
-            digitalWrite(led[i], 1);
+            digitalWrite(led[i], 0);
         }
     a=a/2;
   }
