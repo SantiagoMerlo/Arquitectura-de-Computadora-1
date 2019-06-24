@@ -1,13 +1,10 @@
 #include "output.h"
 
-#define salida 97      //letra a para salir
-#define mas_rapido 43    //simbolo "+" para que sea mas rapido
-#define mas_lento 45 //simbolo "-" para que sea mas lento
     char password[6];
     char letra;
     
 ////Valor global del delay
-    int tiempo = 15;
+    int tiempo = 12;
 
 
 ////////////////////tablas de datos //////////////////////////////////
@@ -50,21 +47,20 @@ int ingreso(){
 
 int press_key() {
     cbreak();
-    char c;
     keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
-    c = getch();
-    nocbreak();
-    if(c == mas_lento){
-        tiempo+=2;
-    }
-    if(c == mas_rapido){
-       tiempo-=2;
-    }
-    if (c == salida){ //finaliza con a
-        return 0;
+    switch (getch()) {
+        case 'a':
+            return 0;
+        case KEY_UP:
+            if(tiempo > 0) tiempo--;
+            break;
+        case KEY_DOWN:
+            if(tiempo < 30) tiempo++;
+            break;
     }
     return 1;
+    nocbreak();
 }
 
 
@@ -72,7 +68,7 @@ int press_key() {
 void delay(int a){
   for(int j=0;j<a;j++)
   {
-    unsigned int i = 0x3fffff; //raspberry 0x3fffff
+    unsigned int i = 0x2fffff; //raspberry 0x3fffff
     while(i)i--;
   };
 };
@@ -175,7 +171,11 @@ void ChoqueT()
     };
 };
 ///////////////////Pantalla de Carga, es aun Algoritmo nuestro hecho con tabla/////////////
-void cuna_de_newton()
+
+extern void cuna_newton();
+
+/*
+void cuna_newton()
 {
     initscr();
     noecho();
@@ -194,8 +194,12 @@ void cuna_de_newton()
         
     };
 };
+*/
 /////////////////Algoritmo Propio que consiste en la pantalla de carga de los juegos viejos///////////
-void Game(){
+
+extern void video_game();
+/*
+void video_game(){
     initscr();
     noecho();
     while(1){
@@ -237,12 +241,12 @@ void Game(){
         };
     };
 };
-
+*/
 int main()
 {
     strcpy(password, "14863");
     if(!ingreso()){
-        printf("Se te acabaron los intentos\n");
+        printf("Se acabaron los intentos\n");
         return 0;
     }
     while(1){
@@ -271,10 +275,10 @@ int main()
                 Carrera();
                 break;
             case 4 :
-                Game();
+                video_game();
                 break;
             case 5 :
-                cuna_de_newton();
+                cuna_newton();
                 break;
             case 6 :
                 return 1;
