@@ -11,7 +11,7 @@ video_game:
 	PUSH {R4-R7, LR}
 _game_init:
 	MOV R4,#0 	//para bucle a
-	LDR R6, arreglo	//arreglo principal
+	LDR R6,=arreglo	//arreglo principal
 _game_move:
 	BL press_key
 	CMP R0, #1
