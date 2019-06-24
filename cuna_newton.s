@@ -1,21 +1,38 @@
-
 .text
 
-.global main
-main:
-      LDR R3, = array // load base address of a into R3
-      loop:
-          MOV R1,#22
-          BL output
-          SUBS R1,R1,#1
-          ;BNE loop
-          
-      BL 
-done: NOP            // dummy instruction for breakpoint instruccion boba, que no hace nada
-      BX LR          // return from main
+.extern press_key
+.extern output
+.extern delay
+.extern tiempo
+.global cuna_newton
 
+cuna_newton:
+      PUSH {R4-R5, LR}
+      
+_newton_init:
+     MOV R4, #0 //contador
+     
+_newton_move:
+     ADD R4, R4, #1
+     LDR R5, =_VALUES
+     LDRB R5, [R5, R4]
+     BL press_key
+     CMP R0, #1 //Si es igual a 1 no sale
+     BNE _newton_out // return
+     MOV R0, R5 
+     BL output // output(values[r5])
+     LDR R0, =tiempo
+     LDR R0, [R0]
+     BL delayMillis
+     CMP R4, #22 // table size
+     BEQ _newton_init
+     B _newton_move
+     
+_newton_out:
+     POP {R4-R5, PC}
+     
 .data
-array:
+_VALUES:
       .byte 0x88
       .byte 0x48
       .byte 0x28
