@@ -244,6 +244,7 @@ void video_game(){
 */
 int main()
 {
+    pioInit();
     strcpy(password, "14863");
     if(!ingreso()){
         printf("Se acabaron los intentos\n");
