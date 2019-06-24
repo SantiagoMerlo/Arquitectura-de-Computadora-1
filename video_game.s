@@ -64,7 +64,14 @@ _game_out:
 
 .data
 arreglo:
-      .byte 0,1,2,3,4,5,6,7
+      .byte 0
+      .byte 1
+      .byte 2
+      .byte 3
+      .byte 4
+      .byte 5
+      .byte 6
+      .byte 7
 .end
 
    
