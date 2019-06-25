@@ -172,9 +172,9 @@ void ChoqueT()
 };
 ///////////////////Pantalla de Carga, es aun Algoritmo nuestro hecho con tabla/////////////
 
-extern void cuna_newton();
+//extern void cuna_newton();
 
-/*
+
 void cuna_newton()
 {
     initscr();
@@ -194,11 +194,11 @@ void cuna_newton()
         
     };
 };
-*/
+
 /////////////////Algoritmo Propio que consiste en la pantalla de carga de los juegos viejos///////////
 
-extern void video_game();
-/*
+//extern void video_game();
+
 void video_game(){
     initscr();
     noecho();
@@ -235,7 +235,7 @@ void video_game(){
             
     };
 };
-*/
+
 int main()
 {
     pioInit();
