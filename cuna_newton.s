@@ -13,7 +13,6 @@ _newton_init:
      MOV R4, #0   //contador
      
 _newton_move:
-     ADD R4, R4, #1
      LDR R5, =numbers
      LDRB R5, [R5, R4]
      BL press_key
@@ -24,6 +23,7 @@ _newton_move:
      LDR R0, =tiempo
      LDR R0, [R0]
      BL delay
+     ADD R4, R4, #1
      CMP R4, #22  //table size
      BEQ _newton_init
      B _newton_move
