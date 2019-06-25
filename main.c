@@ -175,7 +175,7 @@ void ChoqueT()
 //extern void cuna_newton();
 
 
-void cuna_newton()
+/*void cuna_newton()
 {
     initscr();
     noecho();
@@ -193,13 +193,13 @@ void cuna_newton()
         };
         
     };
-};
+};*/
 
 /////////////////Algoritmo Propio que consiste en la pantalla de carga de los juegos viejos///////////
 
 //extern void video_game();
 
-void video_game(){
+/*void video_game(){
     initscr();
     noecho();
     while(1){
@@ -234,7 +234,7 @@ void video_game(){
         }while(k<8);
             
     };
-};
+};*/
 
 int main()
 {
