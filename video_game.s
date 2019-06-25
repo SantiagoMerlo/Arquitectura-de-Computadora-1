@@ -1,11 +1,9 @@
-
 .text
 .extern press_key
 .extern output
 .extern delay
 .extern tiempo
 .global video_game
-
 video_game:
 	PUSH {R4-R7, LR}
 _game_init:
@@ -17,8 +15,9 @@ _game_move:
 	MOV R0,#1
 	BL output	
 	LDR R0,=tiempo
-	LDR R0, [R0]
+	LDR R0,[R0]
 	BL delay
+	B loop
 loop:				//mostrar "autofantastico"
 	ADD R4,R4,#1
         MOV R1,#1		//valor de funcion imput/output
@@ -32,14 +31,15 @@ cond_a:				//condicion de tipo 0
 	CMP R0,#1
 	BNE _game_out
 	LDR R0,=tiempo
-	LDR R0, [R0]
+	LDR R0,[R0]
 	BL delay
 	CMP R4,#7 	 
         BNE loop		//--> Return loop
-	
-	MOV R7,#1
+	MOV R7,#1		//int k=1
+	B general
 general:	
 	MOV R3,R7		//contador j
+	B loop2
 loop2:
         MOV R1,#1
         MOV R2,#1
@@ -56,7 +56,7 @@ cond_c:				//condicion de tipo obligatoria (tipo 2)
 	ADD R0,R6,R1
 	BL output
 	LDR R0,=tiempo
-	LDR R0, [R0]
+	LDR R0,[R0]
 	BL delay
 	BL press_key
 	CMP R0,#1
@@ -68,7 +68,8 @@ cond_c:				//condicion de tipo obligatoria (tipo 2)
 	CMP R7,#8
         BNE general
         B _game_init
-
+	
+	
 potencia:			//funcion calcular potencia de 2
     	ADD R1,R1,R1
     	SUBS R5,R5,#1
@@ -78,82 +79,15 @@ potencia:			//funcion calcular potencia de 2
         CMP R2,#1
         BEQ cond_b		//salida para valor de arreglo menos uno
         B cond_c		//salida para valor arreglo
+	
+	
 _game_out:
 	POP {R4-R7, PC}
 .data
-
 .end
 
 
 /* intento 1 con arreglo
-.text
-
-.extern press_key
-.extern output
-.extern delay
-.extern tiempo
-.global video_game
-
-video_game:
-	PUSH {R4-R7, LR}
-_game_init:
-	MOV R4,#0 	//para bucle a
-	LDR R6,=arreglo	//arreglo principal
-_game_move:
-	BL press_key
-	CMP R0, #1	//1 no exit, 0 exit
-	BNE _game_out
-	MOV R0,#1
-	STRB R0,[R6]	//cargamos en R6(+R4) el dato de R0 --> STRB R0,[R6,#0]
-	BL output	
-	LDR R0,=tiempo	//Velocidad del delay, modificado en press_key
-	LDR R0, [R0]
-	BL delay
-loop:			//En este loop se definen los valores de el arreglo
-	MOV R1,#1	//instanciamos el valor a elevar
-	ADD R4,R4,#1	//aumenta el contador
-	MOV R5,R4	//aux
-potencia:
-    	ADD R1,R1,R1 	//obtengo 2 elevado a R4 --> si R4 vale 3 se repite 3 veces= 1+1 = 2, 2+2= 4, 4+4= 8==2´3
-    	SUBS R5,R5,#1 	//cuantas veces se va a elevar a la potencia
-BNE potencia		//condicion de salida, R5 = 0
-	BL press_key
-	CMP R0, #1
-	BNE _game_out	
-	STRB R1,[R6,R4]	//cargo los valores en mi arreglo
-	MOV R0,R1
-	BL output
-	LDR R0,=tiempo
-	LDR R0, [R0]
-	BL delay
-	CMP R4,#7 	//contador, empieza en el loop con 1
-BNE loop
-	MOV R7,#1	//repetidor de procesos --> int k=1;
-general:		//Segunda parte del proceso while(k<8)
-	MOV R4,R7	//int j = 0 ; j < 8; j++
-loop2:
-	LDRB R1,[R6,R7]	//cargamos en R1 el valor que se encuentra en el arreglo/ R7 CONSTANTE EN EL PROCESO
-	SUB R1,R1,#1	//resta para obtener la segunda fila
-	LDRB R0,[R6,R4]	//cargamos el valor a calcular
-	ADD R0,R0,R1	// si teniamos un R0 = 00000010 + R1= 11100000 = 11100010
-	BL output
-	LDR R0,=tiempo
-	LDR R0, [R0]
-	BL delay
-	BL press_key
-	CMP R0, #1
-	BNE _game_out
-	ADD R4,R4,#1	//contador j++
-	CMP R4,#8
-BNE loop2
-	ADD R7,R7,#1	//contador k++
-	CMP R7,#8
-BNE general
-B _game_init
-
-_game_out:
-	POP {R4-R7, PC}
-
 .data
 arreglo:	// 	filtro		valor anterior menos uno
       .byte 0	//1 --> 10000000 -->	00000000
