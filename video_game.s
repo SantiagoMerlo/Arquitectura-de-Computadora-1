@@ -7,7 +7,8 @@
 video_game:
 	PUSH {R4-R7, LR}
 _game_init:
-	MOV R4,#0 
+	MOV R4,#0
+        MOV R1,#1
 _game_move:
 	BL press_key
 	CMP R0, #1
@@ -20,11 +21,7 @@ _game_move:
 	B loop
 loop:				//mostrar "autofantastico"
 	ADD R4,R4,#1
-        MOV R1,#1		//valor de funcion imput/output
-	MOV R5,R4		// 2 elevado a r4
-        MOV R2,#0            	// tipo de salida
-        B potencia
-cond_a:				//condicion de tipo 0
+        ADD R0,R1,LSL R4
 	MOV R0,R1
         BL output
         BL press_key
@@ -41,19 +38,10 @@ general:
 	MOV R3,R7		//contador j
 	B loop2
 loop2:
-        MOV R1,#1
-        MOV R2,#1
-        MOV R5,R7
-        B potencia
-cond_b:				//condicion de tipo 1
-        MOV R6,R1
+        ADD R6,R1,LSL R7
         SUB R6,R6,#1		//arreglo - 1 = todas las luces prendidas desde un punto
-        MOV R5,R3
-        MOV R2,#2
-        MOV R1,#1
-	B potencia
-cond_c:				//condicion de tipo obligatoria (tipo 2)
-	ADD R0,R6,R1
+        ADD R0,R1,LSL R3
+	ADD R0,R6,R0
 	BL output
 	LDR R0,=tiempo
 	LDR R0,[R0]
@@ -68,19 +56,6 @@ cond_c:				//condicion de tipo obligatoria (tipo 2)
 	CMP R7,#8
         BNE general
         B _game_init
-	
-	
-potencia:			//funcion calcular potencia de 2
-    	ADD R1,R1,R1
-    	SUBS R5,R5,#1
-        BNE potencia
-        CMP R2,#0
-        BEQ cond_a		//--> salida a primer loop
-        CMP R2,#1
-        BEQ cond_b		//salida para valor de arreglo menos uno
-        B cond_c		//salida para valor arreglo
-	
-	
 _game_out:
 	POP {R4-R7, PC}
 .data
